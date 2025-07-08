@@ -261,10 +261,33 @@ header {
     font-size: 14px;
   }
 
-  .tags {
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    .tags {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 12px;
+    padding: 0 10px;
   }
+
+  .tags span {
+  width: 100%;
+  max-width: 300px;     /* Optional: limit to keep center-aligned */
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 12px;
+  background-color: #f6d5cb;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #2e1e1e;
+  font-family: 'League Spartan', sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+}
 }
 
 /* === Bio Slide-In from Right === */
