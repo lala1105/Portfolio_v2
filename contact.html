@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=League+Spartan:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script src="config.js"></script>
 </head>
 <body>
 
@@ -53,44 +52,45 @@
     </div>
   </main>
 
+  <!-- Load config.js AFTER EmailJS and DOM -->
+  <script src="config.js"></script>
   <script>
-  emailjs.init(emailConfig.PUBLIC_KEY);
+    emailjs.init(emailConfig.PUBLIC_KEY);
 
-  window.onload = () => {
-    document.querySelector('.g-recaptcha').setAttribute('data-sitekey', emailConfig.RECAPTCHA_SITE_KEY);
-  };
+    window.onload = () => {
+      document.querySelector('.g-recaptcha').setAttribute('data-sitekey', emailConfig.RECAPTCHA_SITE_KEY);
+    };
 
-  function toggleMenu() {
-    document.getElementById('navbar-right').classList.toggle('show');
-  }
-
-  document.getElementById('contact-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const form = this;
-    const messageDiv = document.getElementById('formMessage');
-
-    const recaptchaToken = grecaptcha.getResponse();
-    if (!recaptchaToken) {
-      messageDiv.textContent = "Please verify reCAPTCHA!";
-      messageDiv.style.color = "red";
-      return;
+    function toggleMenu() {
+      document.getElementById('navbar-right').classList.toggle('show');
     }
 
-    emailjs.sendForm(emailConfig.SERVICE_ID, emailConfig.TEMPLATE_ID, form)
-      .then(() => {
-        messageDiv.textContent = "Message sent successfully!";
-        messageDiv.style.color = "green";
-        form.reset();
-        grecaptcha.reset();
-      })
-      .catch(() => {
-        messageDiv.textContent = "Failed to send message. Try again.";
-        messageDiv.style.color = "red";
-      });
-  });
-</script>
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
 
+      const form = this;
+      const messageDiv = document.getElementById('formMessage');
+      const recaptchaToken = grecaptcha.getResponse();
+
+      if (!recaptchaToken) {
+        messageDiv.textContent = "Please verify reCAPTCHA!";
+        messageDiv.style.color = "red";
+        return;
+      }
+
+      emailjs.sendForm(emailConfig.SERVICE_ID, emailConfig.TEMPLATE_ID, form)
+        .then(() => {
+          messageDiv.textContent = "Message sent successfully!";
+          messageDiv.style.color = "green";
+          form.reset();
+          grecaptcha.reset();
+        })
+        .catch(() => {
+          messageDiv.textContent = "Failed to send message. Try again.";
+          messageDiv.style.color = "red";
+        });
+    });
+  </script>
 
   <footer class="footer">
     <div class="footer-content">
