@@ -7,8 +7,9 @@
   <link rel="stylesheet" href="contact.css"/>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=League+Spartan:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- reCAPTCHA & EmailJS -->
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <!-- reCAPTCHA with onload callback -->
+  <script src="https://www.google.com/recaptcha/api.js?onload=grecaptchaCallback&render=explicit" async defer></script>
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 </head>
 <body>
@@ -41,7 +42,7 @@
         <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
 
         <!-- CAPTCHA -->
-        <div class="g-recaptcha" data-sitekey=""></div>
+        <div id="recaptcha-container" class="g-recaptcha"></div>
 
         <div id="formMessage" style="margin-top: 10px;"></div>
         <button type="submit">Send Message</button>
@@ -64,13 +65,16 @@
       document.getElementById('navbar-right').classList.toggle('show');
     }
 
-    window.onload = () => {
-      const captchaElement = document.querySelector('.g-recaptcha');
-      if (captchaElement && emailConfig.RECAPTCHA_SITE_KEY) {
-        captchaElement.setAttribute('data-sitekey', emailConfig.RECAPTCHA_SITE_KEY);
-        grecaptcha.render(captchaElement);
+    // Called by Google reCAPTCHA when it's loaded
+    function grecaptchaCallback() {
+      if (emailConfig.RECAPTCHA_SITE_KEY) {
+        grecaptcha.render("recaptcha-container", {
+          sitekey: emailConfig.RECAPTCHA_SITE_KEY
+        });
       }
+    }
 
+    window.onload = () => {
       const form = document.getElementById('contact-form');
       const messageDiv = document.getElementById('formMessage');
 
