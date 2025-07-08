@@ -58,8 +58,11 @@
     emailjs.init(emailConfig.PUBLIC_KEY);
 
     window.onload = () => {
-      document.querySelector('.g-recaptcha').setAttribute('data-sitekey', emailConfig.RECAPTCHA_SITE_KEY);
-    };
+    const captchaElement = document.querySelector('.g-recaptcha');
+    if (captchaElement && emailConfig.RECAPTCHA_SITE_KEY) {
+      captchaElement.setAttribute('data-sitekey', emailConfig.RECAPTCHA_SITE_KEY);
+      grecaptcha.render(captchaElement); 
+    }
 
     function toggleMenu() {
       document.getElementById('navbar-right').classList.toggle('show');
