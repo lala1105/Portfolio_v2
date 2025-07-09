@@ -94,7 +94,7 @@ header {
   padding: 0 100px;
   background-color: #fffbea;
   overflow: hidden;
-  margin-top: 140px;
+  margin-top: 200px;
 }
 
 .main-text {
@@ -108,7 +108,7 @@ header {
 .main-text h1 {
   font-size: 50px;
   color: #e84e7c;
- 
+  letter-spacing: 3px;
   font-weight: 900;
   text-transform: uppercase;
   line-height: 1.2;
